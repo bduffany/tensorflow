@@ -1,0 +1,26 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "op",
+    srcs = [
+        "generate.go",
+        "gradients.go",
+        "op.go",
+        "scope.go",
+        "wrappers.go",
+    ],
+    importpath = "github.com/tensorflow/tensorflow/tensorflow/go/op",
+    visibility = ["//visibility:public"],
+    deps = ["//tensorflow/go"],
+)
+
+go_test(
+    name = "op_test",
+    srcs = [
+        "gradients_test.go",
+        "op_test.go",
+        "scope_test.go",
+    ],
+    embed = [":op"],
+    deps = ["//tensorflow/go"],
+)

@@ -1,0 +1,18 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "genop_lib",
+    srcs = [
+        "generate.go",
+        "main.go",
+    ],
+    importpath = "github.com/tensorflow/tensorflow/tensorflow/go/genop",
+    visibility = ["//visibility:private"],
+    deps = ["//tensorflow/go/genop/internal"],
+)
+
+go_binary(
+    name = "genop",
+    embed = [":genop_lib"],
+    visibility = ["//visibility:public"],
+)

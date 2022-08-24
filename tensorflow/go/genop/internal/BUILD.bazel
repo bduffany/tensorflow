@@ -1,0 +1,32 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "internal",
+    srcs = [
+        "api_def_map.go",
+        "genop.go",
+        "lib.go",
+    ],
+    cgo = True,
+    clinkopts = ["-ltensorflow"],
+    copts = ["-Itensorflow/go/genop/internal"],
+    importpath = "github.com/tensorflow/tensorflow/tensorflow/go/genop/internal",
+    visibility = ["//tensorflow/go/genop:__subpackages__"],
+    deps = [
+        "//tensorflow/go/core/framework/api_def_go_proto",
+        "//tensorflow/go/core/framework/op_def_go_proto",
+        "@org_golang_google_protobuf//encoding/prototext:go_default_library",
+        "@org_golang_google_protobuf//proto:go_default_library",
+    ],
+)
+
+go_test(
+    name = "internal_test",
+    srcs = ["genop_test.go"],
+    embed = [":internal"],
+    deps = [
+        "//tensorflow/go/core/framework/api_def_go_proto",
+        "//tensorflow/go/core/framework/op_def_go_proto",
+        "@org_golang_google_protobuf//encoding/prototext:go_default_library",
+    ],
+)
